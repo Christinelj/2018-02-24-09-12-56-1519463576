@@ -1,7 +1,19 @@
 'use strict';
 
-function spilt_to_zero(number, interval) {
-  //在这里写入代码
+function split_to_zero(number, interval) {
+  var result = [number];
+  if (number % interval === 0) {
+    for (var i = 0, len = Math.floor(number / interval); i < len; i++) {
+      result.push(parseFloat((result[i] - interval).toFixed(2)))
+    }
+  }
+  else {
+    for (var i = 0, len = Math.ceil(number / interval); i < len; i++) {
+      result.push(parseFloat((result[i] - interval).toFixed(2)))
+    }
+  }
+  return result;
 }
 
-module.exports = spilt_to_zero;
+module.exports = split_to_zero;
+
