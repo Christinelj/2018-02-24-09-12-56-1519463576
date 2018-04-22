@@ -1,44 +1,63 @@
 function count_same_elements(collection) {
-  var result = [];
-  var arr = [];
+    var result = [];
+    var arr = [];
 
-  function split_bracket(collection1) {
-    var arr2 = [];
-    for (var i = 0; i < collection1.length; i++) {
-      if (collection1[i].indexOf("[")) {
-        var splited = collection1[i].split("[");
-        splited[1] = splited[1].split("]");
-        collection1[i] = splited[0];
-        arr2[collection1[i]] = {};
-        arr2[collection1[i]].key = collection1[i];
-        arr2[collection1[i]].count = splited[1][0] - 1;
+    for (var i = 0; i < collection.length; i++) {
+      if (!(collection[i].indexOf("[") === -1)) {
+        var first_splite = []; var second_splite = []; var number = 0;
+        first_splite = collection[i].split("[");
+        second_splite = first_splite[1].replace("]", '');
+        collection[i] = first_splite[0];
+        number = parseInt(second_splite);
+        if (!arr[collection[i]]) {
+          arr[collection[i]] = {};
+          arr[collection[i]].name = collection[i];
+          arr[collection[i]].summary = number - 1;
+        } else {
+          arr[collection[i]].summary = arr[collection[i]].summary + number -1;
+        }
+      }
+      if (!(collection[i].indexOf("-") === -1)) {
+        var symbol_hyphen_splite = []; var number = 0;
+        symbol_hyphen_splite = collection[i].split("-");
+        collection[i] = symbol_hyphen_splite[0];
+        number = parseInt(symbol_hyphen_splite[1]) - 1;
+        if (!arr[collection[i]]) {
+          arr[collection[i]] = {};
+          arr[collection[i]].name = collection[i];
+          arr[collection[i]].summary = number;
+        } else {
+          arr[collection[i]].summary = arr[collection[i]].summary + number
+        }
+      }
+      if (!(collection[i].indexOf(":") === -1)) {
+        var symbol_colon_splite = []; var number = 0;
+        symbol_colon_splite = collection[i].split(":");
+        collection[i] = symbol_colon_splite[0];
+        number = parseInt(symbol_colon_splite[1]);
+        if (!arr[collection[i]]) {
+          arr[collection[i]] = {};
+          arr[collection[i]].name = collection[i];
+          arr[collection[i]].summary = number;
+        } else {
+          arr[collection[i]].summary = arr[collection[i]].summary + number
+        }
+      }
+      else {
+        if (!arr[collection[i]]) {
+          arr[collection[i]] = {};
+          arr[collection[i]].name = collection[i];
+          arr[collection[i]].summary = 1;
+        } else {
+          arr[collection[i]].summary++
+        }
       }
     }
-    return arr2;
-  }
-  var splite1 = [];
-  for (var i = 0; i < collection.length; i++) {
-    splite1 = collection[i].split(/-|:|,/);
-    collection[i] = split1[0];
-    arr[collection[i]] = {};
-    arr[collection[i]].key = collection[i];
-    arr[collection[i]].count = split1[1] - 1;
-  }
 
-  arr = split_bracket(arr);
-
-  if (!arr[collection[i]]) {
-    arr[collection[i]] = {};
-    arr[collection[i]].key = collection[i];
-    arr[collection[i]].count = 1;
-  } else {
-    arr[collection[i]].count++;
+    for (var i in arr) {
+      result.push(arr[i])
+    }
+    return result;
   }
-
-  for (var i in arr) {
-    result.push(arr[i]);
-  }
-  return result;
-}
 
 module.exports = count_same_elements;
